@@ -8,7 +8,7 @@ defmodule Posterr.AccountsTest do
   describe "users" do
     alias Posterr.Accounts.User
 
-    @invalid_attrs %{username: nil}
+    @invalid_attrs %{username: "user-12345"}
 
     test "list_users/0 returns all users" do
       user = insert(:user)
@@ -21,10 +21,10 @@ defmodule Posterr.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{username: "some username"}
+      params = params_for(:user)
 
-      assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
-      assert user.username == "some username"
+      assert {:ok, %User{} = user} = Accounts.create_user(params)
+      assert user.username == params.username
     end
 
     test "create_user/1 with invalid data returns error changeset" do

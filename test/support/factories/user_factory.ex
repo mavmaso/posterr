@@ -3,7 +3,7 @@ defmodule Posterr.UserFactory do
     quote do
       def user_factory do
         %Posterr.Accounts.User{
-          username: "nome_#{System.unique_integer([:positive])}"
+          username: "nome_do_users#{System.unique_integer([:positive])}"
         }
       end
     end

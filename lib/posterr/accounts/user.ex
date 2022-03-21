@@ -13,5 +13,6 @@ defmodule Posterr.Accounts.User do
     user
     |> cast(attrs, [:username])
     |> validate_required([:username])
+    |> validate_length(:username, min: 14)
   end
 end
