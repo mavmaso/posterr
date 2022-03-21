@@ -7,6 +7,8 @@ defmodule PosterrWeb.Router do
 
   scope "/api", PosterrWeb do
     pipe_through :api
+
+    resources "/users", UserController, only: [:create, :show, :index]
   end
 
   # Enables LiveDashboard only for development
