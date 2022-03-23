@@ -1,5 +1,7 @@
 defmodule PosterrWeb.UserView do
   use PosterrWeb, :view
+
+  alias Posterr.Repo
   alias PosterrWeb.UserView
 
   def render("index.json", %{users: users}) do
@@ -11,10 +13,12 @@ defmodule PosterrWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
+    user = Repo.preload(user, [:posts])
     %{
       id: user.id,
       username: user.username,
-      joined: Date.to_string(user.inserted_at)
+      joined: Date.to_string(user.inserted_at),
+      count_posts: user.posts |> length()
     }
   end
 end
