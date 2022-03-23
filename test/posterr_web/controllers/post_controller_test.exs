@@ -33,4 +33,20 @@ defmodule PosterrWeb.PostControllerTest do
       assert "too many posts" = json_response(conn, 400)["error"]
     end
   end
+
+  describe "index" do
+    test "render posts when valid data", %{conn: conn} do
+      params = %{page: 2}
+      count = insert_list(10, :post) |> length()
+
+      conn = get(conn, Routes.post_path(conn, :index), params)
+
+      assert subject = json_response(conn, 200)["data"]
+      assert [%{"id" => _, "type" => _, "user" => _}] = subject["entries"]
+      assert subject["page_number"] == params.page
+      assert subject["page_size"] == 10
+      assert subject["total_entries"] == count + 1
+      assert subject["total_pages"] == 2
+    end
+  end
 end

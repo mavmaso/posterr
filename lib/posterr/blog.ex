@@ -122,4 +122,14 @@ defmodule Posterr.Blog do
     |> Repo.all()
     |> length()
   end
+
+  @doc """
+  Returns a %Scrivener.Page{} with all post inside. Using default page_size.
+  """
+  @spec list_all(page :: integer()) :: Scrivener.Page.t()
+  def list_all(page) do
+    Post
+    |> preload([:user])
+    |> Repo.paginate(page: page)
+  end
 end

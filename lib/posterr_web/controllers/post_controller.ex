@@ -13,4 +13,11 @@ defmodule PosterrWeb.PostController do
       |> render("show.json", post: post)
     end
   end
+
+  def index(conn, %{"page" => page}) do
+    with page <- Blog.list_all(page) do
+      conn
+      |> render("index.json", posts: page)
+    end
+  end
 end

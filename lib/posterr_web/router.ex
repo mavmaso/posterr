@@ -9,7 +9,7 @@ defmodule PosterrWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, only: [:create, :show, :index]
-    resources "/posts", PostController, only: [:create]
+    resources "/posts", PostController, only: [:create, :index]
   end
 
   if Mix.env() in [:dev, :test] do
