@@ -21,4 +21,11 @@ defmodule PosterrWeb.FallbackController do
     |> put_view(PosterrWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :too_many_posts}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(PosterrWeb.ErrorView)
+    |> json(%{error: "too many posts"})
+  end
 end

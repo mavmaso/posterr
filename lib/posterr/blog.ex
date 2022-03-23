@@ -103,4 +103,23 @@ defmodule Posterr.Blog do
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
   end
+
+  @doc """
+  Returns if it's possible or not to the user create one more post today
+  """
+  @spec post_per_day(user_id :: String.t() | integer()) :: :ok | {:error, :too_many_posts}
+  def post_per_day(user_id) do
+    cond do
+      count_post_per_day(user_id) <= 4 -> :ok
+      true -> {:error, :too_many_posts}
+    end
+  end
+
+  defp count_post_per_day(user_id) do
+    Post
+    |> where([p], p.user_id == ^user_id)
+    |> where([p], fragment("?::date", p.inserted_at) == ^Date.utc_today)
+    |> Repo.all()
+    |> length()
+  end
 end
