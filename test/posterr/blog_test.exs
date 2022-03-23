@@ -21,9 +21,11 @@ defmodule Posterr.BlogTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      text = Enum.reduce(1..776, "a", fn _, acc ->
-        acc <> "a"
-      end)
+      text =
+        Enum.reduce(1..776, "a", fn _, acc ->
+          acc <> "a"
+        end)
+
       attrs = params_with_assocs(:post, %{type: "original", content: text})
 
       assert {:ok, %Post{} = post} = Blog.create_post(attrs)
@@ -36,9 +38,11 @@ defmodule Posterr.BlogTest do
     end
 
     test "create_post/1 with mote than 777 at content" do
-      text = Enum.reduce(1..777, "a", fn _, acc ->
-        acc <> "a"
-      end)
+      text =
+        Enum.reduce(1..777, "a", fn _, acc ->
+          acc <> "a"
+        end)
+
       attr = params_for(:post, %{content: text})
 
       assert {:error, %Ecto.Changeset{}} = Blog.create_post(attr)

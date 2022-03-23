@@ -14,6 +14,7 @@ defmodule PosterrWeb.UserView do
 
   def render("user.json", %{user: user}) do
     user = Repo.preload(user, [:posts])
+
     %{
       id: user.id,
       username: user.username,

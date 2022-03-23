@@ -6,13 +6,15 @@ defmodule PosterrWeb.PostView do
   alias PosterrWeb.UserView
 
   def render("index.json", %{posts: post}) do
-    %{data: %{
-      entries: render_many(post.entries, PostView, "post.json"),
-      page_number: post.page_number,
-      page_size: post.page_size,
-      total_entries: post.total_entries,
-      total_pages: post.total_pages
-    }}
+    %{
+      data: %{
+        entries: render_many(post.entries, PostView, "post.json"),
+        page_number: post.page_number,
+        page_size: post.page_size,
+        total_entries: post.total_entries,
+        total_pages: post.total_pages
+      }
+    }
   end
 
   def render("show.json", %{post: post}) do

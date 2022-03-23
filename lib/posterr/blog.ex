@@ -118,7 +118,7 @@ defmodule Posterr.Blog do
   defp count_post_per_day(user_id) do
     Post
     |> where([p], p.user_id == ^user_id)
-    |> where([p], fragment("?::date", p.inserted_at) == ^Date.utc_today)
+    |> where([p], fragment("?::date", p.inserted_at) == ^Date.utc_today())
     |> Repo.all()
     |> length()
   end

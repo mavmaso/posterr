@@ -7,7 +7,7 @@ defmodule PosterrWeb.PostController do
 
   def create(conn, %{"post" => params}) do
     with :ok <- Blog.post_per_day(params["user_id"]),
-      {:ok, post} <- Blog.create_post(params) do
+         {:ok, post} <- Blog.create_post(params) do
       conn
       |> put_status(:created)
       |> render("show.json", post: post)
