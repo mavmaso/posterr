@@ -49,4 +49,20 @@ defmodule PosterrWeb.PostControllerTest do
       assert subject["total_pages"] == 2
     end
   end
+
+  describe "user_posts" do
+    test "render posts when valid data", %{conn: conn, user: user} do
+      params = %{page: 2, user_id: user.id}
+      count = insert_list(6, :post, %{user: user}) |> length()
+
+      conn = get(conn, Routes.post_path(conn, :user_post), params)
+
+      assert subject = json_response(conn, 200)["data"]
+      assert [%{"id" => _, "type" => _, "user" => _}] = subject["entries"]
+      assert subject["page_number"] == params.page
+      assert subject["page_size"] == 5
+      assert subject["total_entries"] == count
+      assert subject["total_pages"] == 2
+    end
+  end
 end

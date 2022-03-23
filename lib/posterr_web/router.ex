@@ -10,6 +10,7 @@ defmodule PosterrWeb.Router do
 
     resources "/users", UserController, only: [:create, :show, :index]
     resources "/posts", PostController, only: [:create, :index]
+    get "/user_posts", PostController, :user_post
   end
 
   if Mix.env() in [:dev, :test] do

@@ -20,4 +20,11 @@ defmodule PosterrWeb.PostController do
       |> render("index.json", posts: page)
     end
   end
+
+  def user_post(conn, %{"page" => page, "user_id" => user_id}) do
+    with page <- Blog.user_posts(user_id, page) do
+      conn
+      |> render("index.json", posts: page)
+    end
+  end
 end

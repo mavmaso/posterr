@@ -132,4 +132,14 @@ defmodule Posterr.Blog do
     |> preload([:user])
     |> Repo.paginate(page: page)
   end
+
+  @doc """
+  Returns a %Scrivener.Page{} with all post for one user inside.
+  """
+  def user_posts(user_id, page) do
+    Post
+    |> where([p], p.user_id == ^user_id)
+    |> order_by([p], desc: p.inserted_at)
+    |> Repo.paginate(page: page, page_size: 5)
+  end
 end
