@@ -5,6 +5,8 @@ defmodule Posterr.Accounts.User do
   schema "users" do
     field :username, :string
 
+    has_many :posts, Posterr.Blog.Post
+
     timestamps()
   end
 
