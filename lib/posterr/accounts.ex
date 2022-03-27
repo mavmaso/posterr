@@ -161,4 +161,14 @@ defmodule Posterr.Accounts do
     |> where([f], f.follow_id == ^user_id)
     |> Repo.aggregate(:count, :id)
   end
+
+  @doc """
+  WIP
+  """
+  def list_followings_ids_by_user(user_id) do
+    Following
+    |> where([f], f.user_id == ^user_id)
+    |> select([f], f.follow_id)
+    |> Repo.all()
+  end
 end

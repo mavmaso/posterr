@@ -1,6 +1,8 @@
 defmodule PosterrWeb.PostController do
   use PosterrWeb, :controller
 
+  alias Posterr.Accounts
+  alias Posterr.Accounts.User
   alias Posterr.Blog
 
   action_fallback PosterrWeb.FallbackController
@@ -14,10 +16,18 @@ defmodule PosterrWeb.PostController do
     end
   end
 
-  def index(conn, %{"page" => page}) do
-    with page <- Blog.list_all(page) do
+  def index(conn, %{"page" => page, "user_id" => id}) do
+    with {:ok, %User{}} <- Accounts.get_user(id),
+         pages <- Blog.list_followings_posts(id, page) do
       conn
-      |> render("index.json", posts: page)
+      |> render("index.json", posts: pages)
+    end
+  end
+
+  def index(conn, %{"page" => page}) do
+    with pages <- Blog.list_all(page) do
+      conn
+      |> render("index.json", posts: pages)
     end
   end
 

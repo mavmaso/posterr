@@ -6,6 +6,7 @@ defmodule Posterr.Blog do
   import Ecto.Query, warn: false
   alias Posterr.Repo
 
+  alias Posterr.Accounts
   alias Posterr.Blog.Post
 
   @doc """
@@ -141,5 +142,14 @@ defmodule Posterr.Blog do
     |> where([p], p.user_id == ^user_id)
     |> order_by([p], desc: p.inserted_at)
     |> Repo.paginate(page: page, page_size: 5)
+  end
+
+  @doc """
+  WIP
+  """
+  def list_followings_posts(user_id, page) do
+    Post
+    |> where([p], p.user_id in ^Accounts.list_followings_ids_by_user(user_id))
+    |> Repo.paginate(page: page)
   end
 end

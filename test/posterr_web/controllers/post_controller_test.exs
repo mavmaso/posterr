@@ -35,7 +35,7 @@ defmodule PosterrWeb.PostControllerTest do
   end
 
   describe "index" do
-    test "render posts when valid data", %{conn: conn} do
+    test "render all posts when valid data", %{conn: conn} do
       params = %{page: 2}
       count = insert_list(10, :post) |> length()
 
@@ -47,6 +47,22 @@ defmodule PosterrWeb.PostControllerTest do
       assert subject["page_size"] == 10
       assert subject["total_entries"] == count + 1
       assert subject["total_pages"] == 2
+    end
+
+    test "render followings posts when valid data", %{conn: conn, user: user} do
+      new_user = insert(:user)
+      count = insert_list(8, :post, %{user: new_user}) |> length()
+      insert(:following, %{user: user, follow: new_user})
+      insert(:following, %{user: user})
+      insert_list(4, :post)
+
+      params = %{page: 1, user_id: user.id}
+
+      conn = get(conn, Routes.post_path(conn, :index), params)
+
+      assert subject = json_response(conn, 200)["data"]
+      assert subject["page_number"] == params.page
+      assert subject["total_entries"] == count
     end
   end
 
