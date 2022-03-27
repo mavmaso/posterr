@@ -56,4 +56,16 @@ defmodule Posterr.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
+
+  describe "following" do
+    test "add_follow/1 returns error when duplicate follow" do
+      user = insert(:user)
+      new_user = insert(:user)
+      attrs = %{user_id: user.id, follow_id: new_user.id}
+
+      Accounts.add_follow(attrs)
+
+      assert {:error, %Ecto.Changeset{}} = Accounts.add_follow(attrs)
+    end
+  end
 end

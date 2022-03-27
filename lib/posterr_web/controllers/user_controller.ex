@@ -2,6 +2,7 @@ defmodule PosterrWeb.UserController do
   use PosterrWeb, :controller
 
   alias Posterr.Accounts
+  alias Posterr.Accounts.Following
   alias Posterr.Accounts.User
 
   action_fallback PosterrWeb.FallbackController
@@ -22,5 +23,14 @@ defmodule PosterrWeb.UserController do
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
+  end
+
+  def follow(conn, %{"follow_id" => follow_id, "user_id" => user_id}) do
+    with {:ok, %User{} = user} <- Accounts.get_user(user_id),
+        {:ok, %User{} = follow} <- Accounts.get_user(follow_id),
+        {:ok, %Following{}, status} <- Accounts.toggle_follow(user, follow) do
+      conn
+      |> json(%{data: status})
+    end
   end
 end

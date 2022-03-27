@@ -9,6 +9,8 @@ defmodule PosterrWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, only: [:create, :show, :index]
+    post "/follow", UserController, :follow
+
     resources "/posts", PostController, only: [:create, :index]
     get "/user_posts", PostController, :user_post
   end

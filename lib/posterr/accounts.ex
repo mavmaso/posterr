@@ -7,6 +7,7 @@ defmodule Posterr.Accounts do
   alias Posterr.Repo
 
   alias Posterr.Accounts.User
+  alias Posterr.Accounts.Following
 
   @doc """
   Returns the list of users.
@@ -36,6 +37,16 @@ defmodule Posterr.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  @doc """
+  WIP
+  """
+  def get_user(id) do
+    case Repo.get(User,id) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
+  end
 
   @doc """
   Creates a user.
@@ -101,4 +112,35 @@ defmodule Posterr.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  @doc """
+  WIP
+  """
+  def toggle_follow(user, follow) do
+    case check_follow(user.id, follow.id) do
+      nil -> add_follow(%{user_id: user.id, follow_id: follow.id}) |> Tuple.append(:created)
+      %Following{} = follow -> delete_follow(follow) |> Tuple.append(:ok)
+    end
+  end
+
+  defp check_follow(user_id, follow_id) do
+    Following
+    |> where([f], f.user_id == ^user_id)
+    |> where([f], f.follow_id == ^follow_id)
+    |> Repo.one()
+  end
+
+  @doc """
+  WIP
+  """
+  def add_follow(attrs) do
+    %Following{}
+    |> Following.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  WIP
+  """
+  def delete_follow(%Following{} = follow), do: Repo.delete(follow)
 end
