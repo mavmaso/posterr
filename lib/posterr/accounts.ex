@@ -143,4 +143,22 @@ defmodule Posterr.Accounts do
   WIP
   """
   def delete_follow(%Following{} = follow), do: Repo.delete(follow)
+
+  @doc """
+  WIP
+  """
+  def count_followings_by_user(user_id) do
+    Following
+    |> where([f], f.user_id == ^user_id)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  WIP
+  """
+  def count_followers_by_user(user_id) do
+    Following
+    |> where([f], f.follow_id == ^user_id)
+    |> Repo.aggregate(:count, :id)
+  end
 end

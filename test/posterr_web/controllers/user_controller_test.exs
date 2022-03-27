@@ -38,6 +38,8 @@ defmodule PosterrWeb.UserControllerTest do
   describe "show user" do
     test "renders user when data is valid", %{conn: conn, user: user} do
       insert_list(5, :post, %{user: user})
+      insert_list(2, :following, %{user: user})
+      insert(:following, %{follow: user})
 
       conn = get(conn, Routes.user_path(conn, :show, user.id))
 
@@ -46,6 +48,8 @@ defmodule PosterrWeb.UserControllerTest do
       assert subject["username"] == user.username
       assert subject["joined"] == Date.to_string(user.inserted_at)
       assert subject["count_posts"] == 5
+      assert subject["followers"] == 1
+      assert subject["followings"] == 2
     end
   end
 
