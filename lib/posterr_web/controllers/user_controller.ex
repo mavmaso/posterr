@@ -27,8 +27,8 @@ defmodule PosterrWeb.UserController do
 
   def follow(conn, %{"follow_id" => follow_id, "user_id" => user_id}) do
     with {:ok, %User{} = user} <- Accounts.get_user(user_id),
-        {:ok, %User{} = follow} <- Accounts.get_user(follow_id),
-        {:ok, %Following{}, status} <- Accounts.toggle_follow(user, follow) do
+         {:ok, %User{} = follow} <- Accounts.get_user(follow_id),
+         {:ok, %Following{}, status} <- Accounts.toggle_follow(user, follow) do
       conn
       |> json(%{data: status})
     end
