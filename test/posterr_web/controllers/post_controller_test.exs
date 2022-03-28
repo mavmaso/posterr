@@ -30,7 +30,7 @@ defmodule PosterrWeb.PostControllerTest do
 
       conn = post(conn, Routes.post_path(conn, :create), post: params)
 
-      assert "too many posts" = json_response(conn, 400)["error"]
+      assert "too many posts" = json_response(conn, 400)["errors"]
     end
   end
 

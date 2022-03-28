@@ -89,5 +89,13 @@ defmodule PosterrWeb.UserControllerTest do
 
       assert json_response(conn, 404)["errors"]["detail"] == "Not Found"
     end
+
+    test "renders :error when following themselves", %{conn: conn, user: user} do
+      params = %{"user_id" => user.id, "follow_id" => user.id}
+
+      conn = post(conn, Routes.user_path(conn, :follow), params)
+
+      assert json_response(conn, 400)["errors"] == "user can't following themselves"
+    end
   end
 end

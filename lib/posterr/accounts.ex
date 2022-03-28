@@ -118,10 +118,18 @@ defmodule Posterr.Accounts do
   """
   def toggle_follow(user, follow) do
     case check_follow(user.id, follow.id) do
-      nil -> add_follow(%{user_id: user.id, follow_id: follow.id}) |> Tuple.append(:created)
-      %Following{} = follow -> delete_follow(follow) |> Tuple.append(:ok)
+      nil ->
+        add_follow(%{user_id: user.id, follow_id: follow.id}) |> Tuple.append(:created)
+
+      %Following{} = follow ->
+        delete_follow(follow) |> Tuple.append(:ok)
+
+      :error ->
+        {:error, :following_themselves}
     end
   end
+
+  defp check_follow(user_id, follow_id) when user_id == follow_id, do: :error
 
   defp check_follow(user_id, follow_id) do
     Following

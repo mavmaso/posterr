@@ -67,5 +67,12 @@ defmodule Posterr.AccountsTest do
 
       assert {:error, %Ecto.Changeset{}} = Accounts.add_follow(attrs)
     end
+
+    test "add_follow/1 returns error when user following themselves" do
+      user = insert(:user)
+      attrs = %{user_id: user.id, follow_id: user.id}
+
+      assert {:error, %Ecto.Changeset{errors: ["can't be yourself"]}} = Accounts.add_follow(attrs)
+    end
   end
 end

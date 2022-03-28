@@ -26,6 +26,13 @@ defmodule PosterrWeb.FallbackController do
     conn
     |> put_status(:bad_request)
     |> put_view(PosterrWeb.ErrorView)
-    |> json(%{error: "too many posts"})
+    |> json(%{errors: "too many posts"})
+  end
+
+  def call(conn, {:error, :following_themselves}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(PosterrWeb.ErrorView)
+    |> json(%{errors: "user can't following themselves"})
   end
 end
