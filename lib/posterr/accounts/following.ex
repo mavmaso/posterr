@@ -22,8 +22,9 @@ defmodule Posterr.Accounts.Following do
     case changeset.changes.user_id != changeset.changes.follow_id do
       true ->
         changeset
+
       _ ->
-        %{changeset | errors:  changeset.errors ++ ["can't be yourself"], valid?: false}
+        %{changeset | errors: changeset.errors ++ ["can't be yourself"], valid?: false}
     end
   end
 end
