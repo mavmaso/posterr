@@ -1,11 +1,7 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Posterr.Repo.insert!(%Posterr.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias Posterr.Accounts
+alias Posterr.Blog
+
+{:ok, user} = Accounts.create_user(%{username: "User number one"})
+Accounts.create_user(%{username: "User number two"})
+
+Blog.create_post(%{user_id: user.id, content: "primo", type: "original"})
